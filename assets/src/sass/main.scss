@@ -1,0 +1,55 @@
+@import "../../zen-grids-master/sass/zen-grids";
+@import "colors";
+@import "typography";
+
+$padding: 60px 0;
+  
+@media only screen 
+  and (min-device-width: 320px) and (max-device-width: 812px) {
+	 $padding: 30px 0;
+}
+
+$zen-columns: 3;
+$zen-column-first: 1;
+$zen-column-primary: $zen-columns - $zen-column-first;
+$zen-gutters: 30px;
+$mobile-min-width: 320px;
+$mobile-max-width: 812px;
+
+.container{
+	@include zen-grid-container(); 
+	article.content, footer {
+		@include zen-new-row();
+		@include zen-grid-item($zen-columns, $zen-column-first);
+	}
+	div.main{
+		padding: $padding;
+		@include zen-grid-container();
+    	@include zen-new-row();
+	}
+	aside.primary{
+    	@include zen-grid-item($zen-column-primary, $zen-column-first);
+	}
+	aside.secondary{
+    	@include zen-grid-item($zen-column-first, $zen-columns);
+	}
+}
+
+
+@media only screen 
+  and (min-device-width: $mobile-min-width) and (max-device-width: $mobile-max-width) {
+  	div.main{
+  		padding: $padding;
+	}
+	 .container{
+	 	@include zen-grid-container(); 
+	 	article.content, footer, .main {
+	 		@include zen-new-row();
+	 	}
+		
+		aside.primary, aside.secondary{
+			@include zen-new-row();
+			@include zen-grid-item($zen-columns, $zen-column-first);
+		}
+      }
+}
