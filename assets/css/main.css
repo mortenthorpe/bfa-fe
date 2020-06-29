@@ -1,5 +1,5 @@
 body {
-  font-size: medium;
+  font-size: 1em;
 }
 
 body * {
@@ -11,6 +11,17 @@ body h1, body h2, body h3 {
 }
 body h1 {
   font-size: 1.4em;
+}
+body h2 {
+  font-size: 1em;
+}
+
+ul, ul li {
+  padding: 0 0 0.5em 0;
+  list-style: none;
+  list-style-type: none;
+  display: block;
+  clear: both;
 }
 
 .container:before {

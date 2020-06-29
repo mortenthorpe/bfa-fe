@@ -1,6 +1,7 @@
 @import "../../zen-grids-master/sass/zen-grids";
 @import "colors";
 @import "typography";
+@import "global-elems";
 
 $padding: 60px 0;
   
@@ -15,6 +16,7 @@ $zen-column-primary: $zen-columns - $zen-column-first;
 $zen-gutters: 30px;
 $mobile-min-width: 320px;
 $mobile-max-width: 812px;
+
 
 .container{
 	@include zen-grid-container(); 
