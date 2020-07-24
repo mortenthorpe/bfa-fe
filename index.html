@@ -7,9 +7,78 @@
 
   <title></title>
 <link rel="stylesheet" href="assets/css/main.css">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""><!-- Make sure you put this AFTER Leaflet's CSS -->
+
+		<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<script>
+			// Shorthand for $( document ).ready()
+			$(function() {
+				// Toggle display of help info definition elements.
+				$('.help li.definitionToggle').click(function() {
+					if($(this).hasClass('active')) {
+     					$(this).removeClass('active');
+					} else {
+						$(this).addClass('active');
+					}
+				});
+				
+				$('#btnReportInit').on('click', function() {
+					$('#mapInfoBox').toggle();
+					$('.help li.definitionToggle').removeClass('active');
+				});
+				
+			});
+		</script>
+			<style type="text/css">
+			#mapId { height: 360px; }
+			#mapInfoBox {display: none;width:300px;padding:1em;margin;1em;background-color:hsla(0,0%,80%,0.6);border: 2px solid #111;top:0;position:absolute;z-index:10000;}
+			#emailHelp{display: block;padding:1em;background-color:#efefef;border: 2px solid #111;}
+			.help dl, .help dl{position:relative;top:-2em;left:2em;}
+			.popup ol, .popup ul{padding:0;margin:0;}
+			.popup ol{list-style: none; list-style-type: none;}
+			#mapActions{width:100%;margin:1em 20%;}
+			.large{width:50%;height:2em;}
+			.action.primary{font-weight:900;}
+			li.definitionToggle dl{display:none;}
+			li.definitionToggle.active dl{display:block;}
+			.infoBubble{display:inline-block;margin:1em;padding:0 0.5em; border:2px solid blue; border-radius: 0.75em;}
+			</style>
 </head>
 <body>
 	<div class="container">
+		<div id="mapId"></div>
+		<div id="mapActions"><input type="button" class="action primary large" value="Rapporter støj!" id="btnReportInit"/></div>
+		<div id="mapInfoBox">
+			<form id="registerNoise" name="registerNoise" autocomplete="on">
+				<h2>
+					Rapporter støj
+				</h2>
+				<p>
+					Rapporter gerne støj og larm, det gøres i to trin...
+				</p>
+				<div id="emailHelp" class="popup help">
+					<div id="emailWidget">
+					<ol>
+						<li class="label definitionToggle">Indtast din e-mail adresse<span class="infoBubble">?</span>
+							<dl>
+								<dd>
+									Vi opbevarer din e-mail adresse sikkert
+								</dd>
+								<dd>
+									Den vises/udveksles ikke med nogen uden <strong>dit specifikke samtykke</strong>
+								</dd>
+							</dl>
+						</li>
+					</ol>
+					<input name="registerNoise[email]" type="email" value="" placeholder="Din e-mail" required autocomplete="username"> <input type="submit" value="Fortsæt...">
+				</div>
+				<div id="locationWidget">
+					
+				</div>
+			</form>
+		</div>
+	</div>
 	  <article class="content">
 		  <h1>Title</h1>
 	    Tha main content. We like semantic HTML ordering.
@@ -32,5 +101,53 @@
 	    <a href="http://calendar.ics" title="BFA kalender">Event kalender</a>	
 	  </footer>
 	</div>
+	<script type="text/javascript">
+	var mymap = L.map('mapId').setView([55.666416, 12.575991], 16);
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap<\/a> contributors'
+	}).addTo(mymap);
+
+	L.marker([55.676098, 12.568337]).addTo(mymap)
+	.bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+	.openPopup();
+
+	var latlngs = [[55.666416, 12.575991],[55.666742, 12.575498],[55.668182, 12.577579],[55.667977, 12.578051]];
+	var polygon = L.polygon(latlngs, {color: 'red'}).addTo(mymap);
+	mymap.fitBounds(polygon.getBounds());
+	polygon.on('click', function polygonClickListen(e) 
+	{
+	var polyElem = $(this);
+	console.log('Polygon clicked! @ ' + polyElem.html());
+	$(polyElem).fadeOut();
+	}
+	);
+
+	mymap.on('click',
+	function mapClickListen(e) {
+	var pos = e.latlng;
+	console.log('map click event @ ' + pos);
+	});
+	/*var marker = L.marker(
+	pos, {
+	 draggable: true
+	}
+	);
+	marker.on('drag', function(e) {
+	console.log('marker drag event');
+	});
+	marker.on('dragstart', function(e) {
+	console.log('marker dragstart event');
+	map.off('click', mapClickListen);
+	});
+	marker.on('dragend', function(e) {
+	console.log('marker dragend event');
+	setTimeout(function() {
+	 map.on('click', mapClickListen);
+	}, 10);
+	});
+	marker.addTo(map);
+	}
+	);*/
+	</script>
 </body>
 </html>
